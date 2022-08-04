@@ -54,7 +54,7 @@
                     name="attendEvent"
                     as="input"
                     type="radio"
-                    value="1"
+                    :value=1
                     :rules="isRequired"
                     v-model="regiestForm.attendEvent"
                   />
@@ -67,20 +67,7 @@
                     name="attendEvent"
                     as="input"
                     type="radio"
-                    value="2"
-                    :rules="isRequired"
-                    v-model="regiestForm.attendEvent"
-                  />
-                  <span>禮到人不到，請寄喜帖給我！</span>
-                </label>
-              </p>
-              <p>
-                <label>
-                  <Field
-                    name="attendEvent"
-                    as="input"
-                    type="radio"
-                    value="3"
+                    :value=2
                     :rules="isRequired"
                     v-model="regiestForm.attendEvent"
                   />
@@ -89,51 +76,6 @@
               </p>
               <ErrorMessage name="attendEvent" class="error" />
             </div>
-          </div>
-          <div
-            class="field--section attend--field send--invited"
-            v-if="regiestForm.attendEvent == 1 || regiestForm.attendEvent == 2"
-          >
-            <h5>喜帖寄送方式：</h5>
-            <div class="radio--group p-l-5">
-              <p>
-                <label>
-                  <Field
-                    name="inviteType"
-                    as="input"
-                    type="radio"
-                    value="1"
-                    :rules="isRequired"
-                    v-model="regiestForm.inviteType"
-                  />
-                  <span>好呦！請寄給我喜帖 ~ 讓我珍藏 :heart:</span>
-                </label>
-              </p>
-              <p>
-                <label>
-                  <Field
-                    name="inviteType"
-                    as="input"
-                    type="radio"
-                    value="2"
-                    :rules="isRequired"
-                    v-model="regiestForm.inviteType"
-                  />
-                  <span>我比較喜歡電子喜帖，而且我會準時參加 ^^</span>
-                </label>
-              </p>
-            </div>
-            <div class="invite--address" v-if="regiestForm.inviteType == 1">
-              <Field
-                name="inviteAddress"
-                as="input"
-                type="text"
-                :rules="isRequired"
-                v-model="regiestForm.inviteAddress"
-              />
-              <label for="inviteAddress">喜帖收件地址 (含郵遞區號)</label>
-            </div>
-            <ErrorMessage name="inviteAddress" class="error" />
           </div>
           <div class="field--section attend--field">
             <h5>您和新人的關係是?</h5>
@@ -144,7 +86,7 @@
                     name="relation"
                     as="input"
                     type="radio"
-                    value="1"
+                    :value=1
                     :rules="isRequired"
                     v-model="regiestForm.relation"
                   />
@@ -157,7 +99,7 @@
                     name="relation"
                     as="input"
                     type="radio"
-                    value="2"
+                    :value=2
                     :rules="isRequired"
                     v-model="regiestForm.relation"
                   />
@@ -179,11 +121,11 @@
                 :rules="isRequired"
                 v-model="regiestForm.attendPeople"
               >
-                <option value="1">1 人</option>
-                <option value="2">2 人</option>
-                <option value="3">3 人</option>
-                <option value="4">4 人</option>
-                <option value="5">5 人</option>
+                <option :value=1>1 人</option>
+                <option :value=2>2 人</option>
+                <option :value=3>3 人</option>
+                <option :value=4>4 人</option>
+                <option :value=5>5 人</option>
               </Field>
             </div>
             <ErrorMessage name="attendPeople" class="error" />
@@ -200,10 +142,10 @@
                 :rules="isRequired"
                 v-model="regiestForm.child"
               >
-                <option value="0" selected>不需要</option>
-                <option value="1">1 張</option>
-                <option value="2">2 張</option>
-                <option value="3">3 張</option>
+                <option :value=0>不需要</option>
+                <option :value=1>1 張</option>
+                <option :value=2>2 張</option>
+                <option :value=3>3 張</option>
               </Field>
             </div>
             <ErrorMessage name="attendPeople" class="error" />
@@ -225,10 +167,7 @@
             </div>
           </div>
           <div class="field--section">
-            <h5>想對我們說的話 :heart:</h5>
-            <blockquote style="border-left: 5px solid #26a69a">
-              當天會將您的祝福放在大螢幕上哦~
-            </blockquote>
+            <h5>想對我們說的話</h5>
             <div class="radio--group p-l-5">
               <div class="input-field col s12">
                 <textarea
@@ -244,10 +183,6 @@
         <div class="field--section attend--field">
           <h5>溫馨小提醒</h5>
           <blockquote>
-            12月是迎接聖誕節的開始，讓我們約定Dress Code為紅「或」綠色吧 !
-            只要穿有紅「或」綠其中ㄧ顏色的衣物、鞋子或配件...都可喔～
-          </blockquote>
-          <blockquote>
             如果您已送出表單，但有要更改的話，再麻煩提前跟我們說一聲哦！
           </blockquote>
         </div>
@@ -261,6 +196,7 @@
 </template>
 <script>
 import { Field, Form, ErrorMessage } from "vee-validate";
+import axios from 'axios';
 export default {
   components: {
     Field,
@@ -280,7 +216,16 @@ export default {
         lineUserId: this.profile.userId,
         lineUserName: this.profile.displayName,
         fullName: "",
-      },
+        attendPeople:1,
+        child:0,
+        speical:false
+        // phoneNumber:"",
+        // attendEvent:1,
+        // relation:3,
+        // attendPeople:1,
+        // child:1,
+        // message:""
+        },
     };
   },
   methods: {
@@ -291,6 +236,11 @@ export default {
     checkForm: function (e) {
       console.log(this.regiestForm);
       e.preventDefault();
+      axios.post("/api/register",this.regiestForm).then(()=>{
+        alert("正確")
+      }).catch(()=>{
+        alert("錯誤")
+      })
     },
   },
 };
