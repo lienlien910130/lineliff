@@ -20,7 +20,7 @@ export default {
     // eslint-disable-next-line no-unused-vars
     window.liff
       .init({
-        liffId: "<your liffId>", // Use own liffId
+        liffId: "1657358109-M7NJYBln", // Use own liffId
       })
       .then(() => {
         // Start to use liff's api
