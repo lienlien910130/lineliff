@@ -1,5 +1,5 @@
 <template>
-  <Form id="line-form-app" @submit="checkForm">
+  <Form id="line-form-app">
     <div class="card" id="formCard">
       <div class="card-image">
         <img src="https://imgur.com/XF2qm3W.jpg" />
@@ -189,7 +189,7 @@
       </div>
       submit object : {{ regiestForm }}
       <div class="card-action center-align">
-        <button class="btn waves-effect waves-light" type="submit">送出</button>
+        <button class="btn waves-effect waves-light" type="button" @click="checkForm">送出</button>
       </div>
     </div>
   </Form>
@@ -206,25 +206,20 @@ export default {
   name: "RegiestForm",
   props: {
     profile: {
-      lineUserId: "",
+      userId: "",
       displayName: "1111",
     },
   },
   data() {
     return {
       regiestForm: {
-        lineUserId: this.profile.userId,
-        lineUserName: this.profile.displayName,
+        LineUserId: this.profile.userId,
+        LineUserName: this.profile.displayName,
         fullName: "",
         attendPeople:1,
         child:0,
-        speical:false
-        // phoneNumber:"",
-        // attendEvent:1,
-        // relation:3,
-        // attendPeople:1,
-        // child:1,
-        // message:""
+        speical:false,
+        message:""
         },
     };
   },
@@ -234,9 +229,7 @@ export default {
       return value ? true : "此欄位必填";
     },
     checkForm: function (e) {
-      
-      console.log(this.regiestForm);
-      alert(this.regiestForm)
+      alert(this.regiestForm.LineUserId,this.regiestForm.LineUserName)
       e.preventDefault();
       axios.post("https://weddinglinebot.azurewebsites.net/api/register",this.regiestForm).then(()=>{
         alert("正確")
