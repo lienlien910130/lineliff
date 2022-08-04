@@ -1,30 +1,38 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld :msg="msg" :profile="profile" />
+  <RegiestForm :msg="msg" :profile="profile" />
 </template>
 
 <script>
-import { onBeforeMount, reactive, ref } from "@vue/runtime-core";
+import RegiestForm from "./components/RegiestForm.vue";
 export default {
-  setup() {
-    var msg = ref("");
-    var profile = reactive({});
-    onBeforeMount(() => {
-      window.liff
-        .init({
-          liffId: "1657358109-M7NJYBln",
-        })
-        .then(() => {
-          getProfile();
-        });
-    });
-    function getProfile() {
-      window.liff.getProfile().then((response) => {
-        profile = response;
-        msg.value = profile.displayName;
+  name: "App",
+  components: {
+    RegiestForm,
+  },
+  data() {
+    return {
+      msg: "",
+      profile: {},
+    };
+  },
+  beforeCreate() {
+    // eslint-disable-next-line no-unused-vars
+    window.liff
+      .init({
+        liffId: "<your liffId>", // Use own liffId
+      })
+      .then(() => {
+        // Start to use liff's api
+        this.getProfile();
       });
-    }
-    return { msg: msg, profile: profile };
+  },
+  methods: {
+    getProfile: function () {
+      window.liff.getProfile().then((profile) => {
+        this.profile = profile;
+      });
+    },
   },
 };
 </script>
