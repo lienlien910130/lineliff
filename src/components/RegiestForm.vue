@@ -234,6 +234,7 @@ export default {
       return value ? true : "此欄位必填";
     },
     checkForm: function (e) {
+      
       console.log(this.regiestForm);
       alert(this.regiestForm)
       e.preventDefault();
