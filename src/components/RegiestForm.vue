@@ -235,8 +235,9 @@ export default {
     },
     checkForm: function (e) {
       console.log(this.regiestForm);
+      alert(this.regiestForm)
       e.preventDefault();
-      axios.post("/api/register",this.regiestForm).then(()=>{
+      axios.post("https://weddinglinebot.azurewebsites.net/api/register",this.regiestForm).then(()=>{
         alert("正確")
       }).catch(()=>{
         alert("錯誤")
