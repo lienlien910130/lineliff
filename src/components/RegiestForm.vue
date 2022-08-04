@@ -207,14 +207,14 @@ export default {
   props: {
     profile: {
       userId: "",
-      displayName: "1111",
+      displayName: "",
     },
   },
   data() {
     return {
       regiestForm: {
-        LineUserId: this.profile.userId,
-        LineUserName: this.profile.displayName,
+        LineUserId: "",
+        LineUserName: "",
         fullName: "",
         attendPeople:1,
         child:0,
@@ -229,11 +229,14 @@ export default {
       return value ? true : "此欄位必填";
     },
     checkForm: function (e) {
-      alert(this.regiestForm.LineUserId,this.regiestForm.LineUserName)
+      //alert(this.regiestForm.LineUserId,this.regiestForm.LineUserName)
       e.preventDefault();
+      this.regiestForm.LineUserId = this.profile.userId;
+      this.regiestForm.LineUserName = this.profile.displayName;
       axios.post("https://weddinglinebot.azurewebsites.net/api/register",this.regiestForm).then(()=>{
         alert("正確")
-      }).catch(()=>{
+      }).catch((error)=>{
+        console.log(error)
         alert("錯誤")
       })
     },
