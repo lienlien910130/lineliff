@@ -1,11 +1,11 @@
 <template>
-  <RegiestForm :msg="msg" :profile="profile" />
+ <RegiestForm :msg="msg" :profile="profile" />
 </template>
 
 <script>
 import RegiestForm from "./components/RegiestForm.vue";
 export default {
-  name: "RegiestForm",
+  name: "App",
   components: {
     RegiestForm,
   },
@@ -22,6 +22,8 @@ export default {
       })
       .then(() => {
         this.getProfile();
+      }).catch(error=>{
+        console.log(error)
       });
   },
   methods: {
