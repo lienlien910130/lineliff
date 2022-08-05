@@ -1,4 +1,5 @@
 <template>
+<div class='lmask'></div>
   <Form id="line-form-app">
     <div class="card" id="formCard">
       <div class="card-image">
@@ -9,7 +10,7 @@
         </span>
       </div>
       <div class="card-content">
-        Line Profile : {{ profile }}
+        <!-- Line Profile : {{ profile }} -->
         <div class="row">
           <div class="field--section">
             <h5>您的 Line 名稱</h5>
@@ -187,9 +188,9 @@
           </blockquote>
         </div>
       </div>
-      submit object : {{ regiestForm }}
+      <!-- submit object : {{ regiestForm }} -->
       <div class="card-action center-align">
-        <button class="btn waves-effect waves-light" type="button" @click="checkForm">送出</button>
+        <button class="btn waves-effect waves-light" type="button" @click="checkForm" :disabled="isSend">送出</button>
       </div>
     </div>
   </Form>
@@ -216,12 +217,23 @@ export default {
         LineUserId: "",
         LineUserName: "",
         fullName: "",
-        attendPeople:1,
+        attendPeople:0,
         child:0,
         speical:false,
         message:""
-        },
+      },
+      isSend:false,
+      success:false
     };
+  },
+  watch:{
+    profile:{
+      handler(val,old){
+        alert(val.LineUserId)
+        console.log(val,old)
+      },
+      deep:true
+    }
   },
   methods: {
     // Validator function
@@ -233,6 +245,7 @@ export default {
       e.preventDefault();
       this.regiestForm.LineUserId = this.profile.userId;
       this.regiestForm.LineUserName = this.profile.displayName;
+      this.isSend = true
       axios.post("https://weddinglinebot.azurewebsites.net/api/register",this.regiestForm).then(()=>{
         alert("正確")
       }).catch((error)=>{
@@ -244,7 +257,7 @@ export default {
 };
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 body {
   background-color: #e1e5e4;
   font-family: "Helvetica Neue", Helvetica, Arial, "Heiti TC",
@@ -278,4 +291,106 @@ button {
 .error {
   color: #f44336;
 }
+
+.lmask {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
+  background-color: #000;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9999;;
+  opacity: 0.4;
+  &.fixed {
+    position: fixed;
+  }
+  &:before {
+    content: '';
+    background-color: rgba(0,0,0,0);
+    border: 5px solid rgba(0,183,229,0.9);
+    opacity: .9;
+    border-right: 5px solid rgba(0,0,0,0);
+    border-left: 5px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 35px #2187e7;
+    width: 50px;
+    height: 50px;
+    -moz-animation: spinPulse 1s infinite ease-in-out;
+    -webkit-animation: spinPulse 1s infinite linear;
+
+    margin: -25px 0 0 -25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  &:after {
+    content: '';
+    background-color: rgba(0,0,0,0);
+    border: 5px solid rgba(0,183,229,0.9);
+    opacity: .9;
+    border-left: 5px solid rgba(0,0,0,0);
+    border-right: 5px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 15px #2187e7;
+    width: 30px;
+    height: 30px;
+    -moz-animation: spinoffPulse 1s infinite linear;
+    -webkit-animation: spinoffPulse 1s infinite linear;
+
+    margin: -15px 0 0 -15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+}
+
+@-moz-keyframes spinPulse {
+  0% {
+    -moz-transform:rotate(160deg);
+    opacity: 0;
+    box-shadow: 0 0 1px #2187e7;
+  }
+  50% {
+    -moz-transform: rotate(145deg);
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: rotate(-320deg);
+    opacity: 0;
+  }
+}
+@-moz-keyframes spinoffPulse {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spinPulse {
+  0% {
+    -webkit-transform: rotate(160deg);
+    opacity: 0;
+    box-shadow: 0 0 1px #2187e7;
+  }
+  50% {
+    -webkit-transform: rotate(145deg);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(-320deg);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes spinoffPulse {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
 </style>
