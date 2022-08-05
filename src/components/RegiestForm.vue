@@ -243,7 +243,7 @@ export default {
       return value ? true : "此欄位必填";
     },
     getData(){
-      axios.get("https://weddinglinebot.azurewebsites.net/api/register" + this.profile.userId
+      axios.get("https://weddinglinebot.azurewebsites.net/api/register/" + this.profile.userId
       ).then((response)=>{
         console.log("response",response)
         this.formdata = response
