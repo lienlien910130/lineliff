@@ -229,9 +229,9 @@ export default {
   watch:{
     profile:{
       handler(val,old){
-        alert(val.LineUserId)
+        alert(val.userId)
         console.log(val,old)
-        if(val.LineUserId !== undefined){
+        if(val.userId !== undefined){
           this.getData()
         } 
       },
@@ -245,6 +245,7 @@ export default {
     getData(){
       axios.get("https://weddinglinebot.azurewebsites.net/api/register" + this.profile.userId
       ).then((response)=>{
+        console.log("response",response)
         this.formdata = response
       }).catch((error)=>{
         console.log(error)
